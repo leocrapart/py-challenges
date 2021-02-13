@@ -1,61 +1,40 @@
 import streamlit as st
+import challenges
+
+st.set_page_config(page_icon="random", layout="wide")
+
+challenges = challenges.challenges
+
+def sidebar():
+    with st.sidebar:
+        "# Challenges"
+        challenge_names = []
+        for challenge in challenges:
+            challenge_names.append(challenge["name"])
+            
+        selected_challenge = st.radio("", challenge_names)
+
+        return selected_challenge
 
 
-"## Thematique"
-"### le trieur"
-"algorithme de tri, evoluer en tri spécialisé selon la typologie de la liste"
 
-"### le miroir"
-"inverser des mots, evoluer en phrases"
+def body(challenge_to_display):
+    challenge_displayed = False
 
-"### le poete"
-"créer des mots qui sonnent bien, evoluer en créateur de phrases, puis de poemes"
+    for challenge in challenges:
+        challenge_name = challenge["name"]
 
-"### l'investisseur"
-"formule des interets composés"
+        if challenge_name == challenge_to_display:
+            challenge_container = challenge["container"]
+            challenge_container()
+            challenge_displayed = True
 
-"### l'oeil d'horus"
-"trouver la couleur majoritaire d'une image"
-
-"### le surfeur"
-"ploter des vagues, surface 3d"
-
-"### les lapins"
-"proie prédateur, equation différentielle et graphe 2d"
-
-"### le statisticien"
-"statistiques de base, evoluer en calcul de la p value"
-
-"### le philosophe"
-"génerateur de citations philosophiques"
-
-"### la chaleur"
-"calculs de la diffusion thermique standard"
-
-"### l'eau"
-"simulation de l'ecoulement de l'eau, équation de stokes"
-
-"### les voitures"
-"modélisation des circulations de voitures, mathématiques appliquées"
-
-"### la foret"
-"modélisation de la croissance d'une foret"
+    if not challenge_displayed:
+        st.write("Challenge en construction, je serais content d'obtenir des propositions de ta part :)")
 
 
-""
-""
-"## Défis"
-"### kratos"
-"défis autour des chaines"
 
-"### liste"
-"défis autour des listes"
-
-"### matrix"
-"défis matriciels"
-
-"### vcs"
-"lire un fichier csv, premieres colonnes et lignes en DataFrame"
-
-"### regression"
-"regression linéaire, puis regression multivar"
+def app():
+    selected_challenge = sidebar()
+    body(selected_challenge)
+app()
